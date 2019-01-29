@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { gt, or } from '@ember-decorators/object/computed';
 import { timeout } from 'ember-concurrency';
-import { restartableTask } from 'ember-concurrency-decorators';
+import { task, restartableTask } from 'ember-concurrency-decorators';
 import { inject as service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
 
@@ -74,7 +74,7 @@ export default class LoadingService extends Service {
     this.delayTask.perform(delay);
   }
 
-  @restartableTask
+  @task
   * _runJob(job: () => any) {
     yield job();
   }
