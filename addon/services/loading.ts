@@ -2,8 +2,13 @@ import Service from '@ember/service';
 import { gt, or } from '@ember-decorators/object/computed';
 import { timeout } from 'ember-concurrency';
 import { restartableTask } from 'ember-concurrency-decorators';
+import { inject as service } from '@ember-decorators/service';
+import RouterService from '@ember/routing/router-service';
 
 export default class LoadingService extends Service {
+
+  @service
+  router!: RouterService;
 
   /**
    * @private
@@ -12,14 +17,33 @@ export default class LoadingService extends Service {
 
   loadingDelay = 20;
 
-  @or('hasCounter', '_runJob.isRunning')
+  @or('hasCounter', '_runJob.isRunning', 'routerTransitionsPending')
   isLoading!: boolean;
 
-  @or('hasCounter', '_runJob.isRunning', 'delayTask.isRunning')
+  @or('isLoading', 'delayTask.isRunning')
   showLoading!: boolean;
 
   @gt('counter', 0)
   hasCounter!: boolean;
+
+  routerTransitionsPending = false;
+
+  _routeWillChange = () => this.set('routerTransitionsPending', true);
+  _routeDidChange = () => this.set('routerTransitionsPending', false);
+
+  constructor() {
+    super(...arguments);
+
+    this.router.on('routeWillChange', this._routeWillChange);
+    this.router.on('routeDidChange', this._routeDidChange);
+  }
+
+  willDestroy() {
+    super.willDestroy();
+
+    this.router.off('routeWillChange', this._routeWillChange);
+    this.router.off('routeDidChange', this._routeDidChange);
+  }
 
   /**
    * Call this when starting a load action
