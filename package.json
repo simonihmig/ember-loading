@@ -1,13 +1,13 @@
 {
   "name": "ember-loading",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Primitives for handling loading state in Ember apps",
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": "https://github.com/kaliber5/ember-loading.git",
   "license": "MIT",
-  "author": "",
+  "author": "Simon Ihmig <simon.ihmig@kaliber5.de>",
   "directories": {
     "doc": "doc",
     "test": "tests"
