@@ -1,13 +1,13 @@
-ember-loading
+WIP: ember-loading
 ==============================================================================
 
-[Short description of the addon.]
+Not yet ready to be used for the general public! 😬
 
 
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v2.18 or above
+* Ember.js v3.6 or above
 * Ember CLI v2.13 or above
 
 
