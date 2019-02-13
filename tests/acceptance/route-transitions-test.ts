@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, waitFor } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+import 'qunit-dom';
 
 module('Acceptance | route transitions', function(hooks) {
   setupApplicationTest(hooks);
