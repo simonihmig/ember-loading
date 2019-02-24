@@ -52,7 +52,6 @@
     "tests/**/*",
     "types/**/*",
     "test-support/**/*",
-    "addon-test-support/**/*",
-    "node_modules/qunit-dom/dist/qunit-dom.d.ts"
+    "addon-test-support/**/*"
   ]
 }
