@@ -1,5 +1,6 @@
 import { assert } from '@ember/debug';
 import { getOwner } from '@ember/application';
+import LoadingService from 'ember-loading/services/loading';
 
 const loading: MethodDecorator = (desc: any) => {
   assert('The @loading decorator must be applied to methods', desc && desc.kind === 'method');
@@ -10,19 +11,14 @@ const loading: MethodDecorator = (desc: any) => {
     ...desc,
     descriptor: {
       ...desc.descriptor,
-      async value() {
+      value() {
 
         let owner = getOwner(this);
         assert('The target of the @loading decorator must have an owner.', !!owner);
 
-        let service = owner.lookup('service:loading');
+        let service: LoadingService = owner.lookup('service:loading');
 
-        try {
-          service.start();
-          return await orig.apply(this, arguments);
-        } finally {
-          service.stop();
-        }
+        return service.run(this, orig, ...arguments);
       }
     }
   };
