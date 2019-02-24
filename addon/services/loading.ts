@@ -1,7 +1,7 @@
 import Service from '@ember/service';
-import { gt, or } from '@ember-decorators/object/computed';
+import { or } from '@ember-decorators/object/computed';
 import { timeout } from 'ember-concurrency';
-import { task, restartableTask } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
 import { inject as service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
 
@@ -80,13 +80,20 @@ export default class LoadingService extends Service {
     this.router.off('routeDidChange', this._routeDidChange);
   }
 
-  // async run<T extends Function>(target: any, method: T): Promise<T>;
-  // async run<T extends Function>(target: any, method: T, ...args): Promise<T>;
-
-
-  // async run<T extends Function, U >(target: Function | any | null, method?: T | [], ...args: any[]): Promise<T>;
-  // async run(target: any | null | undefined, method?: Function, ...args: any[]): Promise<any>;
-  // async run<T extends (...args: any[]) => R, R>(method: T): Promise<R>;
+  run<T, P1, P2, P3, P4, P5, P6, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): Promise<R>;
+  run<T, P1, P2, P3, P4, P5, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4, p5: P5) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): Promise<R>;
+  run<T, P1, P2, P3, P4, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4): Promise<R>;
+  run<T, P1, P2, P3, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3) => R) | keyof T, p1: P1, p2: P2, p3: P3): Promise<R>;
+  run<T, P1, P2, R>(target: T, fn: ((p1: P1, p2: P2) => R) | keyof T, p1: P1, p2: P2): Promise<R>;
+  run<T, P1, R>(target: T, fn: ((p1: P1) => R) | keyof T, p1: P1): Promise<R>;
+  run<T, R>(target: T, fn: (() => R) | keyof T): Promise<R>
+  run<P1, P2, P3, P4, P5, P6, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6) => R, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): Promise<R>;
+  run<P1, P2, P3, P4, P5, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4, p5: P5) => R, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): Promise<R>;
+  run<P1, P2, P3, P4, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4) => R, p1: P1, p2: P2, p3: P3, p4: P4): Promise<R>;
+  run<P1, P2, P3, R>(fn: (p1: P1, p2: P2, p3: P3) => R, p1: P1, p2: P2, p3: P3): Promise<R>;
+  run<P1, P2, R>(fn: (p1: P1, p2: P2) => R, p1: P1, p2: P2): Promise<R>;
+  run<P1, R>(fn: (p1: P1) => R, p1: P1): Promise<R>;
+  run<R>(fn: () => R): Promise<R>;
   async run() {
     // @ts-ignore
     let result = await this._runJob.perform(...arguments);

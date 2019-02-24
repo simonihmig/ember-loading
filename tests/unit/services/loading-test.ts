@@ -76,6 +76,17 @@ module('Unit | Service | loading', function(hooks) {
     await service.run(job, 2, 'foo');
   });
 
+  // used to test the typing
+  test('passes many args', async function(assert) {
+    assert.expect(2);
+    let job = () => {
+      assert.equal(arguments.length, 6);
+    };
+
+    let service: LoadingService = this.owner.lookup('service:loading');
+    await service.run(job, 2, 'foo', 2, 'foo', 2, 'foo');
+  });
+
   test('context', async function(assert) {
     assert.expect(1);
     let context = {};
@@ -87,14 +98,25 @@ module('Unit | Service | loading', function(hooks) {
     await service.run(context, job);
   });
 
-  test('return value', async function(assert) {
-    let deferred = defer();
-    let job = () => deferred.promise;
+  test('context with args', async function(assert) {
+    assert.expect(3);
+    let context = {};
+    let job = function(this: any, a: number, b: string) {
+      assert.equal(this, context);
+      assert.equal(a, 2);
+      assert.equal(b, 'foo');
+    };
+
+    let service: LoadingService = this.owner.lookup('service:loading');
+    await service.run(context, job, 2, 'foo');
+  });
+
+  test('return promise value', async function(assert) {
+    let job = async () => 'foo';
 
     let service: LoadingService = this.owner.lookup('service:loading');
     let promise = service.run(job);
-    deferred.resolve('foo');
-    let result = await promise;
+    let result: string = await promise;
     assert.equal(result, 'foo');
   });
 
@@ -113,7 +135,9 @@ module('Unit | Service | loading', function(hooks) {
     let foo = new Foo;
 
     let service: LoadingService = this.owner.lookup('service:loading');
-    let result = await service.run(foo, 'job', 1, 'foo');
+    let result = await service.run(foo, 'job');
+    result = await service.run(foo, 'job', 1);
+    result = await service.run(foo, 'job', '', 'foo');
 
     assert.equal(result, 'foo');
     assert.equal(context, foo);
