@@ -29,7 +29,38 @@ module('Unit | Service | loading', function(hooks) {
     assert.notOk(service.get('isLoading'));
     assert.ok(service.get('showLoading'));
 
-    await timeout(5);
+    await timeout(1);
+    assert.notOk(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+  });
+
+  test('waits for all async jobs', async function(assert) {
+    let deferred1 = defer();
+    let deferred2 = defer();
+
+    let service: LoadingService = this.owner.lookup('service:loading');
+    assert.notOk(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+
+    let promise1 = service.run(() => deferred1.promise);
+    assert.ok(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    let promise2 = service.run(() => deferred2.promise);
+    assert.ok(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    deferred1.resolve();
+    await promise1;
+    assert.ok(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    deferred2.resolve();
+    await promise2;
+    assert.notOk(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    await timeout(1);
     assert.notOk(service.get('isLoading'));
     assert.notOk(service.get('showLoading'));
   });
