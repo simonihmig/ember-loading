@@ -3,12 +3,14 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import LoadingService from '../../../addon/services/loading';
+import { defer } from 'rsvp';
 
 module('Integration | Component | while-loading', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders while loading', async function(assert) {
     let service: LoadingService = this.owner.lookup('service:loading');
+    let deferred = defer();
 
     await render(hbs`
       {{#while-loading}}
@@ -18,11 +20,11 @@ module('Integration | Component | while-loading', function(hooks) {
 
     assert.dom('#loading-indicator').doesNotExist();
 
-    service.start();
+    service.run(() => deferred.promise);
     await settled();
     assert.dom('#loading-indicator').exists();
 
-    service.stop();
+    deferred.resolve();
     await settled();
     assert.dom('#loading-indicator').doesNotExist();
   });

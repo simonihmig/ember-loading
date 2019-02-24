@@ -53,21 +53,13 @@ export default class LoadingService extends Service {
   @service
   router!: RouterService;
 
-  /**
-   * @private
-   */
-  counter = 0;
-
   loadingDelay = 0;
 
-  @or('hasCounter', '_runJob.isRunning', 'routerTransitionsPending')
+  @or('_runJob.isRunning', 'routerTransitionsPending')
   isLoading!: boolean;
 
   @or('isLoading', 'delayTask.isRunning')
   showLoading!: boolean;
-
-  @gt('counter', 0)
-  hasCounter!: boolean;
 
   routerTransitionsPending = false;
 
@@ -86,26 +78,6 @@ export default class LoadingService extends Service {
 
     this.router.off('routeWillChange', this._routeWillChange);
     this.router.off('routeDidChange', this._routeDidChange);
-  }
-
-  /**
-   * Call this when starting a load action
-   *
-   * @method start
-   * @public
-   */
-  start() {
-    this.incrementProperty('counter');
-  }
-
-  /**
-   * Call this when loading action has finished
-   *
-   * @method stop
-   * @public
-   */
-  stop() {
-    this.decrementProperty('counter');
   }
 
   // async run<T extends Function>(target: any, method: T): Promise<T>;

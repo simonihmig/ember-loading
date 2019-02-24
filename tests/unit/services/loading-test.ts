@@ -2,31 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { timeout } from 'ember-concurrency';
 import LoadingService from 'ember-loading/services/loading';
-import RSVP, { defer } from 'rsvp';
+import { defer } from 'rsvp';
 
 module('Unit | Service | loading', function(hooks) {
   setupTest(hooks);
-
-  test('switching on/off is behaving properly', function(assert) {
-    let service: LoadingService = this.owner.lookup('service:loading');
-    assert.notOk(service.get('isLoading'));
-    service.start();
-    assert.ok(service.get('isLoading'));
-    service.stop();
-    assert.notOk(service.get('isLoading'));
-  });
-
-  test('stays on when multiple requests are requested and switch off while all requests are done', function(assert) {
-    let service: LoadingService = this.owner.lookup('service:loading');
-    assert.notOk(service.get('isLoading'));
-    service.start();
-    service.start();
-    assert.ok(service.get('isLoading'));
-    service.stop();
-    assert.ok(service.get('isLoading'));
-    service.stop();
-    assert.notOk(service.get('isLoading'));
-  });
 
   test('can run async jobs', async function(assert) {
     let deferred = defer();
