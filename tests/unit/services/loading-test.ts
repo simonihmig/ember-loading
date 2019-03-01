@@ -67,7 +67,7 @@ module('Unit | Service | loading', function(hooks) {
 
   test('passes args', async function(assert) {
     assert.expect(2);
-    let job = (a: number, b: string) => {
+    let job = function(a: number, b: string) {
       assert.equal(a, 2);
       assert.equal(b, 'foo');
     };
@@ -78,8 +78,8 @@ module('Unit | Service | loading', function(hooks) {
 
   // used to test the typing
   test('passes many args', async function(assert) {
-    assert.expect(2);
-    let job = () => {
+    assert.expect(1);
+    let job = function() {
       assert.equal(arguments.length, 6);
     };
 
@@ -135,9 +135,7 @@ module('Unit | Service | loading', function(hooks) {
     let foo = new Foo;
 
     let service: LoadingService = this.owner.lookup('service:loading');
-    let result = await service.run(foo, 'job');
-    result = await service.run(foo, 'job', 1);
-    result = await service.run(foo, 'job', '', 'foo');
+    let result = await service.run(foo, 'job', 1, 'foo');
 
     assert.equal(result, 'foo');
     assert.equal(context, foo);

@@ -80,23 +80,29 @@ export default class LoadingService extends Service {
     this.router.off('routeDidChange', this._routeDidChange);
   }
 
-  run<T, P1, P2, P3, P4, P5, P6, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): Promise<R>;
-  run<T, P1, P2, P3, P4, P5, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4, p5: P5) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): Promise<R>;
-  run<T, P1, P2, P3, P4, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4): Promise<R>;
-  run<T, P1, P2, P3, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3) => R) | keyof T, p1: P1, p2: P2, p3: P3): Promise<R>;
-  run<T, P1, P2, R>(target: T, fn: ((p1: P1, p2: P2) => R) | keyof T, p1: P1, p2: P2): Promise<R>;
-  run<T, P1, R>(target: T, fn: ((p1: P1) => R) | keyof T, p1: P1): Promise<R>;
-  run<T, R>(target: T, fn: (() => R) | keyof T): Promise<R>
-  run<P1, P2, P3, P4, P5, P6, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6) => R, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): Promise<R>;
-  run<P1, P2, P3, P4, P5, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4, p5: P5) => R, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): Promise<R>;
-  run<P1, P2, P3, P4, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4) => R, p1: P1, p2: P2, p3: P3, p4: P4): Promise<R>;
-  run<P1, P2, P3, R>(fn: (p1: P1, p2: P2, p3: P3) => R, p1: P1, p2: P2, p3: P3): Promise<R>;
-  run<P1, P2, R>(fn: (p1: P1, p2: P2) => R, p1: P1, p2: P2): Promise<R>;
-  run<P1, R>(fn: (p1: P1) => R, p1: P1): Promise<R>;
-  run<R>(fn: () => R): Promise<R>;
-  async run() {
+  // @todo Revisit this stronger typing when https://github.com/typed-ember/ember-cli-typescript/issues/590 is resolved
+  //
+  // run<T, P1, P2, P3, P4, P5, P6, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): Promise<R>;
+  // run<T, P1, P2, P3, P4, P5, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4, p5: P5) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): Promise<R>;
+  // run<T, P1, P2, P3, P4, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3, p4: P4) => R) | keyof T, p1: P1, p2: P2, p3: P3, p4: P4): Promise<R>;
+  // run<T, P1, P2, P3, R>(target: T, fn: ((p1: P1, p2: P2, p3: P3) => R) | keyof T, p1: P1, p2: P2, p3: P3): Promise<R>;
+  // run<T, P1, P2, R>(target: T, fn: ((p1: P1, p2: P2) => R) | keyof T, p1: P1, p2: P2): Promise<R>;
+  // run<T, P1, R>(target: T, fn: ((p1: P1) => R) | keyof T, p1: P1): Promise<R>;
+  // run<T, R>(target: T, fn: (() => R) | keyof T): Promise<R>
+  // run<P1, P2, P3, P4, P5, P6, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6) => R, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6): Promise<R>;
+  // run<P1, P2, P3, P4, P5, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4, p5: P5) => R, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5): Promise<R>;
+  // run<P1, P2, P3, P4, R>(fn: (p1: P1, p2: P2, p3: P3, p4: P4) => R, p1: P1, p2: P2, p3: P3, p4: P4): Promise<R>;
+  // run<P1, P2, P3, R>(fn: (p1: P1, p2: P2, p3: P3) => R, p1: P1, p2: P2, p3: P3): Promise<R>;
+  // run<P1, P2, R>(fn: (p1: P1, p2: P2) => R, p1: P1, p2: P2): Promise<R>;
+  // run<P1, R>(fn: (p1: P1) => R, p1: P1): Promise<R>;
+  // run<R>(fn: () => R): Promise<R>;
+  // run<T, R>(target: T, fn: ((...args: any[]) => R) | keyof T, ...args: any[]): Promise<R>;
+  // run<T, R>(target: T, fn: (() => R) | keyof T): Promise<R>;
+  // run<R>(fn: (...args: any[]) => R, ...args: any[]): Promise<R>;
+  // run<R>(fn: () => R): Promise<R>;
+  async run(...args: any[]) {
     // @ts-ignore
-    let result = await this._runJob.perform(...arguments);
+    let result = await this._runJob.perform(...args);
 
     // don't await for delay
     // @ts-ignore
