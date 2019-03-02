@@ -1,9 +1,11 @@
 import Service from '@ember/service';
+import { computed } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
 import { timeout } from 'ember-concurrency';
 import { restartableTask, task } from 'ember-concurrency-decorators';
 import { inject as service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
+import { getOwner } from '@ember/application';
 
 type ParseArgsValue = [any, Function, any[] | undefined];
 
@@ -52,13 +54,17 @@ export default class LoadingService extends Service {
   @service
   router!: RouterService;
 
-  loadingDelay = 0;
+  postDelay = 0;
+  preDelay = 0;
 
   @or('_runJob.isRunning', 'routerTransitionsPending')
   isLoading!: boolean;
 
-  @or('isLoading', 'delayTask.isRunning')
-  showLoading!: boolean;
+  @computed('isLoading', 'preDelayTask.isRunning', 'postDelayTask.isRunning')
+  get showLoading(): boolean {
+    // @ts-ignore
+    return !this.preDelayTask.isRunning && (this.isLoading || this.postDelayTask.isRunning);
+  };
 
   routerTransitionsPending = false;
 
@@ -70,6 +76,16 @@ export default class LoadingService extends Service {
 
     this.router.on('routeWillChange', this._routeWillChange);
     this.router.on('routeDidChange', this._routeDidChange);
+  }
+
+  init() {
+    super.init();
+
+    let config = getOwner(this).resolveRegistration('config:environment')['ember-loading'];
+    if (config) {
+      this.preDelay = config.preDelay || 0;
+      this.postDelay = config.postDelay || 0;
+    }
   }
 
   willDestroy() {
@@ -100,12 +116,18 @@ export default class LoadingService extends Service {
   // run<R>(fn: (...args: any[]) => R, ...args: any[]): Promise<R>;
   // run<R>(fn: () => R): Promise<R>;
   async run(...args: any[]) {
+    if (this.preDelay > 0) {
+      // @ts-ignore
+      this.preDelayTask.perform(this.preDelay);
+    }
+
     // @ts-ignore
     let result = await this._runJob.perform(...args);
 
-    // don't await for delay
-    // @ts-ignore
-    this.delayTask.perform(this.loadingDelay);
+    if (this.postDelay > 0) {
+      // @ts-ignore
+      this.postDelayTask.perform(this.postDelay);
+    }
 
     return result;
   }
@@ -117,7 +139,12 @@ export default class LoadingService extends Service {
   }
 
   @restartableTask
-  * delayTask(delay: number) {
+  * preDelayTask(delay: number) {
+    yield timeout(delay);
+  }
+
+  @restartableTask
+  * postDelayTask(delay: number) {
     yield timeout(delay);
   }
 }
