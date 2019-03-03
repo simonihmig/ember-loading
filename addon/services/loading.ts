@@ -1,11 +1,12 @@
 import Service from '@ember/service';
-import { computed } from '@ember-decorators/object';
-import { or } from '@ember-decorators/object/computed';
+import { computed, action } from '@ember-decorators/object';
+import { readOnly } from '@ember-decorators/object/computed';
 import { timeout } from 'ember-concurrency';
 import { restartableTask, task } from 'ember-concurrency-decorators';
 import { inject as service } from '@ember-decorators/service';
 import RouterService from '@ember/routing/router-service';
 import { getOwner } from '@ember/application';
+import RSVP, { defer } from 'rsvp';
 
 type ParseArgsValue = [any, Function, any[] | undefined];
 
@@ -57,7 +58,7 @@ export default class LoadingService extends Service {
   postDelay = 0;
   preDelay = 0;
 
-  @or('_runJob.isRunning', 'routerTransitionsPending')
+  @readOnly('_runJob.isRunning')
   isLoading!: boolean;
 
   @computed('isLoading', 'preDelayTask.isRunning', 'postDelayTask.isRunning')
@@ -66,10 +67,21 @@ export default class LoadingService extends Service {
     return !this.preDelayTask.isRunning && (this.isLoading || this.postDelayTask.isRunning);
   };
 
-  routerTransitionsPending = false;
+  _routerTransitionDeferred?: RSVP.Deferred<void>;
 
-  _routeWillChange = () => this.set('routerTransitionsPending', true);
-  _routeDidChange = () => this.set('routerTransitionsPending', false);
+  @action
+  _routeWillChange() {
+    let deferred = defer();
+    this.set('_routerTransitionDeferred', deferred);
+    this.run(() => deferred.promise);
+  }
+
+  @action
+  _routeDidChange() {
+    if (this._routerTransitionDeferred) {
+      this._routerTransitionDeferred.resolve();
+    }
+  }
 
   constructor() {
     super(...arguments);
