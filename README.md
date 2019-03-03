@@ -61,9 +61,10 @@ the app's loading state.
 The `loading` service exposes the following properties, which you can use to 
 render your loading indicator in any way:
 
-| Property             | Description                                                          |
-|----------------------|----------------------------------------------------------------------|
-| `isLoading: Boolean` | Will be true if any captures async processes (see below) are pending |
+| Property               | Description                                                           |
+|------------------------|-----------------------------------------------------------------------|
+| `isLoading: Boolean`   | Will be true if any captured async processes (see below) are pending. |
+| `showLoading: Boolean` | Will be true based on `isLoading`, but will take optional `preDelay` and `postDelay` into account, to optimize for the visual appearance. See [Configuration](#configuration) below. |
 
 #### Using `while-loading`
 
@@ -135,6 +136,16 @@ export default class Foo extends Controller {
   }
 }
 ```
+
+### Configuration
+
+The addon supports the following configuration options in your `config/environment.js`, under the 
+`ember-loading` key:
+
+| option               | Default | Description                                                          |
+|----------------------|----------------------------------------------------------------------|
+| `preDelay: number`   | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from false to true. This allows you to suppress the loading indicator appearing for very short loading times. |
+| `postDelay: number`  | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from true to false. This can help you with aggregating multiple async processes happening in succession, to prevent flickering of the loading indicator. |
 
 License
 ------------------------------------------------------------------------------

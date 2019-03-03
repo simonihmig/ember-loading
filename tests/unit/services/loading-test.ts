@@ -27,10 +27,6 @@ module('Unit | Service | loading', function(hooks) {
     deferred.resolve();
     await promise;
     assert.notOk(service.get('isLoading'));
-    assert.ok(service.get('showLoading'));
-
-    await timeout(1);
-    assert.notOk(service.get('isLoading'));
     assert.notOk(service.get('showLoading'));
   });
 
@@ -57,10 +53,6 @@ module('Unit | Service | loading', function(hooks) {
 
     deferred2.resolve();
     await promise2;
-    assert.notOk(service.get('isLoading'));
-    assert.ok(service.get('showLoading'));
-
-    await timeout(1);
     assert.notOk(service.get('isLoading'));
     assert.notOk(service.get('showLoading'));
   });
@@ -141,5 +133,70 @@ module('Unit | Service | loading', function(hooks) {
     assert.equal(context, foo);
   });
 
+  test('supports postDelay', async function(assert) {
+    let deferred = defer();
+    let job = () => deferred.promise;
+    let Service: typeof LoadingService = this.owner.factoryFor('service:loading');
+    let service: LoadingService = Service.create({
+      postDelay: 10
+    });
+    assert.notOk(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+
+    let promise = service.run(job);
+    assert.ok(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    deferred.resolve();
+    await promise;
+    assert.notOk(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    await timeout(6);
+    assert.notOk(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    await timeout(5);
+    assert.notOk(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+  });
+
+  test('supports preDelay', async function(assert) {
+    let deferred = defer();
+    let job = () => deferred.promise;
+    let Service: typeof LoadingService = this.owner.factoryFor('service:loading');
+    let service: LoadingService = Service.create({
+      preDelay: 10
+    });
+    assert.notOk(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+
+    let promise = service.run(job);
+    assert.ok(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+
+    await timeout(10);
+    assert.ok(service.get('isLoading'));
+    assert.ok(service.get('showLoading'));
+
+    deferred.resolve();
+    await promise;
+    assert.notOk(service.get('isLoading'));
+    assert.notOk(service.get('showLoading'));
+  });
+
+  test('reads config', async function(assert) {
+
+    let config = this.owner.resolveRegistration('config:environment');
+    config['ember-loading'] = {
+      preDelay: 5,
+      postDelay: 10
+    };
+
+    let service: LoadingService = this.owner.lookup('service:loading');
+
+    assert.equal(service.preDelay, 5);
+    assert.equal(service.postDelay, 10);
+  });
 });
 
