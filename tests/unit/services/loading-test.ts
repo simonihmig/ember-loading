@@ -179,7 +179,7 @@ module('Unit | Service | loading', function(hooks) {
       assert.ok(service.get('isLoading'));
       assert.notOk(service.get('showLoading'));
 
-      await timeout(10);
+      await timeout(11);
       assert.ok(service.get('isLoading'));
       assert.ok(service.get('showLoading'));
 
