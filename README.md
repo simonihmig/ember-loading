@@ -142,8 +142,8 @@ export default class Foo extends Controller {
 The addon supports the following configuration options in your `config/environment.js`, under the 
 `ember-loading` key:
 
-| option               | Default | Description                                                          |
-|----------------------|----------------------------------------------------------------------|
+| option               | Default | Description                                                |
+|----------------------|---------|------------------------------------------------------------|
 | `preDelay: number`   | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from false to true. This allows you to suppress the loading indicator appearing for very short loading times. |
 | `postDelay: number`  | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from true to false. This can help you with aggregating multiple async processes happening in succession, to prevent flickering of the loading indicator. |
 
