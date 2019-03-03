@@ -137,6 +137,9 @@ export default class Foo extends Controller {
 }
 ```
 
+    Note: As the TC39 decorator proposal is still in stage 2 and subject to change, the decorator support
+    is considered experimental and breaking changes are very likely! You have been warned. 
+
 ### Configuration
 
 The addon supports the following configuration options in your `config/environment.js`, under the 
