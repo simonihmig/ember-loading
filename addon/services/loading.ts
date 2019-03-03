@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { computed } from '@ember-decorators/object';
+import { computed, action } from '@ember-decorators/object';
 import { readOnly } from '@ember-decorators/object/computed';
 import { timeout } from 'ember-concurrency';
 import { restartableTask, task } from 'ember-concurrency-decorators';
@@ -69,16 +69,19 @@ export default class LoadingService extends Service {
 
   _routerTransitionDeferred?: RSVP.Deferred<void>;
 
-  _routeWillChange = () => {
+  @action
+  _routeWillChange() {
     let deferred = defer();
     this.set('_routerTransitionDeferred', deferred);
     this.run(() => deferred.promise);
-  };
-  _routeDidChange = () => {
+  }
+
+  @action
+  _routeDidChange() {
     if (this._routerTransitionDeferred) {
       this._routerTransitionDeferred.resolve();
     }
-  };
+  }
 
   constructor() {
     super(...arguments);
