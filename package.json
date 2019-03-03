@@ -1,6 +1,6 @@
 {
   "name": "ember-loading",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Primitives for handling loading state in Ember apps",
   "keywords": [
     "ember-addon"
