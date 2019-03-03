@@ -15,11 +15,10 @@ function parseArgs(): ParseArgsValue {
   let method;
   let target;
 
-  if (length === 0) {
-  } else if (length === 1) {
+  if (length === 1) {
     target = null;
     method = arguments[0];
-  } else {
+  } else if (length > 1) {
     let argsIndex = 2;
     let methodOrTarget = arguments[0];
     let methodOrArgs = arguments[1];

@@ -9,9 +9,9 @@ module('Unit | Service | loading', function(hooks) {
 
   test('can run async jobs', async function(assert) {
     let deferred = defer();
-    let called = false;
+    let called = 0;
     let job = () => {
-      called = true;
+      called++;
       return deferred.promise;
     };
 
@@ -20,7 +20,7 @@ module('Unit | Service | loading', function(hooks) {
     assert.notOk(service.get('showLoading'));
 
     let promise = service.run(job);
-    assert.ok(called, 'job has been called');
+    assert.equal(called, 1, 'job has been called');
     assert.ok(service.get('isLoading'));
     assert.ok(service.get('showLoading'));
 
