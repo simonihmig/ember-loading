@@ -1,5 +1,8 @@
 ember-loading
 ==============================================================================
+[![Build Status](https://travis-ci.com/kaliber5/ember-loading.svg?branch=master)](https://travis-ci.com/kaliber5/ember-loading)
+[![Ember Observer Score](https://emberobserver.com/badges/ember-loading.svg)](https://emberobserver.com/addons/ember-loading)
+[![npm version](https://badge.fury.io/js/ember-loading.svg)](https://badge.fury.io/js/ember-loading)
 
 A simple Ember.js addon to capture and expose the loading state of your app,
 so you can show that to the user with e.g. a loading indicator. 
