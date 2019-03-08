@@ -232,6 +232,29 @@ module('Unit | Service | loading', function(hooks) {
       assert.notOk(service.get('showLoading'));
     });
 
+    test('multiple route transition events are handled correctly', async function(assert) {
+      let service: LoadingService = this.owner.lookup('service:loading');
+      let router = this.owner.lookup('service:router');
+
+      assert.notOk(service.get('isLoading'));
+      assert.notOk(service.get('showLoading'));
+
+      router.trigger('routeWillChange');
+      await settled();
+      assert.ok(service.get('isLoading'));
+      assert.ok(service.get('showLoading'));
+
+      router.trigger('routeWillChange');
+      await settled();
+      assert.ok(service.get('isLoading'));
+      assert.ok(service.get('showLoading'));
+
+      router.trigger('routeDidChange');
+      await settled();
+      assert.notOk(service.get('isLoading'));
+      assert.notOk(service.get('showLoading'));
+    });
+
     test('supports postDelay', async function(assert) {
       let Service: typeof LoadingService = this.owner.factoryFor('service:loading');
       let service: LoadingService = Service.create({

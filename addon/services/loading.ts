@@ -72,6 +72,9 @@ export default class LoadingService extends Service {
   @action
   _routeWillChange() {
     let deferred = defer();
+    if (this._routerTransitionDeferred) {
+      this._routerTransitionDeferred.resolve();
+    }
     this.set('_routerTransitionDeferred', deferred);
     this.run(() => deferred.promise);
   }
@@ -80,6 +83,7 @@ export default class LoadingService extends Service {
   _routeDidChange() {
     if (this._routerTransitionDeferred) {
       this._routerTransitionDeferred.resolve();
+      this.set('_routerTransitionDeferred', undefined);
     }
   }
 
