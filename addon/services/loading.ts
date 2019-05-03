@@ -1,9 +1,8 @@
 import Service from '@ember/service';
-import { computed, action } from '@ember-decorators/object';
-import { readOnly } from '@ember-decorators/object/computed';
-import { timeout } from 'ember-concurrency';
-import { restartableTask, task } from 'ember-concurrency-decorators';
-import { inject as service } from '@ember-decorators/service';
+import { computed, action } from '@ember/object';
+import { readOnly } from '@ember/object/computed';
+import { Task, task, timeout } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
 import RouterService from '@ember/routing/router-service';
 import { getOwner } from '@ember/application';
 import RSVP, { defer } from 'rsvp';
@@ -137,7 +136,6 @@ export default class LoadingService extends Service {
       this.preDelayTask.perform(this.preDelay);
     }
 
-    // @ts-ignore
     let result = await this._runJob.perform(...args);
 
     if (this.postDelay > 0) {
@@ -148,21 +146,21 @@ export default class LoadingService extends Service {
     return result;
   }
 
-  @task
-  * _runJob() {
+  @task(function*() {
     let [target, method, args] = parseArgs(...arguments);
     return yield method.apply(target, args);
-  }
+  })
+  _runJob!: Task<any>;
 
-  @restartableTask
-  * preDelayTask(delay: number) {
+  @(task(function*(delay: number) {
     yield timeout(delay);
-  }
+  }).restartable())
+  preDelayTask!: Task<void>;
 
-  @restartableTask
-  * postDelayTask(delay: number) {
+  @(task(function*(delay: number) {
     yield timeout(delay);
-  }
+  }).restartable())
+  postDelayTask!: Task<void>;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your services.
