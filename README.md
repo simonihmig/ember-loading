@@ -119,8 +119,9 @@ The `run()` method has the following signature, similar to many of Ember's
 
 #### Decorator
 
-If you use native classes and decorators, you can use the supplied `loading`
-decorator to wrap any native method.
+If you use native classes and decorators, you can use the supplied `@loading` decorator to wrap any native method.
+
+> The decorator uses stage 1 syntax, meant to be used with TypeScript and/or `ember-cli-babel` V7.7.0+
 
 ```js
 import Controller from '@ember/controller';
