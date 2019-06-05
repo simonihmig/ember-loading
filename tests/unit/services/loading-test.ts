@@ -194,13 +194,15 @@ module('Unit | Service | loading', function(hooks) {
       let config = this.owner.resolveRegistration('config:environment');
       config['ember-loading'] = {
         preDelay: 5,
-        postDelay: 10
+        postDelay: 10,
+        watchTransitions: false
       };
 
       let service: LoadingService = this.owner.lookup('service:loading');
 
       assert.equal(service.preDelay, 5);
       assert.equal(service.postDelay, 10);
+      assert.equal(service.watchTransitions, false);
 
       // this leaks between tests somehow!? :/
       delete config['ember-loading'];
