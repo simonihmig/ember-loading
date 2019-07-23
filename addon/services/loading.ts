@@ -56,6 +56,7 @@ export default class LoadingService extends Service {
 
   postDelay = 0;
   preDelay = 0;
+  watchTransitions = true;
 
   @readOnly('_runJob.isRunning')
   isLoading!: boolean;
@@ -86,13 +87,6 @@ export default class LoadingService extends Service {
     }
   }
 
-  constructor() {
-    super(...arguments);
-
-    this.router.on('routeWillChange', this._routeWillChange);
-    this.router.on('routeDidChange', this._routeDidChange);
-  }
-
   init() {
     super.init();
 
@@ -100,14 +94,22 @@ export default class LoadingService extends Service {
     if (config) {
       this.preDelay = config.preDelay || 0;
       this.postDelay = config.postDelay || 0;
+      this.watchTransitions = config.watchTransitions === false ? false : true;
+    }
+
+    if(this.watchTransitions) {
+      this.router.on('routeWillChange', this._routeWillChange);
+      this.router.on('routeDidChange', this._routeDidChange);
     }
   }
 
   willDestroy() {
     super.willDestroy();
 
-    this.router.off('routeWillChange', this._routeWillChange);
-    this.router.off('routeDidChange', this._routeDidChange);
+    if(this.watchTransitions) {
+      this.router.off('routeWillChange', this._routeWillChange);
+      this.router.off('routeDidChange', this._routeDidChange);
+    }
   }
 
   // @todo Revisit this stronger typing when https://github.com/typed-ember/ember-cli-typescript/issues/590 is resolved

@@ -5,7 +5,7 @@ ember-loading
 [![npm version](https://badge.fury.io/js/ember-loading.svg)](https://badge.fury.io/js/ember-loading)
 
 A simple Ember.js addon to capture and expose the loading state of your app,
-so you can show that to the user with e.g. a loading indicator. 
+so you can show that to the user with e.g. a loading indicator.
 
 *But Ember has [loading substates](https://guides.emberjs.com/release/routing/loading-and-error-substates/)
 so why do I even need it?*
@@ -18,18 +18,18 @@ after which `bar.hbs` is rendered. That's fine, if it is what you need.
 But another UX approach would be to keep `foo.hbs` rendered and add any kind of
 loading indicator on top of it (e.g. an overlay over the existing content) or
 somewhere else on the page while loading, and replace the rendered `foo.hbs`
-with `bar.hbs` only when loading has finished. 
+with `bar.hbs` only when loading has finished.
 
 *What else?*
 
-This addon helps you also to show the loading state for async processes 
-besides transitioning between routes, e.g. when you load or save data in a 
+This addon helps you also to show the loading state for async processes
+besides transitioning between routes, e.g. when you load or save data in a
 controller/component.
 
 *How does it look like?*
 
-It is completely agnostic of any looks. It merely provides some basic 
-infrastructure to capture and expose the loading state. To actually render 
+It is completely agnostic of any looks. It merely provides some basic
+infrastructure to capture and expose the loading state. To actually render
 your loading indicator, you can use your own custom styled component or any of
 the existing [loading indicator addons](https://emberobserver.com/categories/loading-indicators).
 
@@ -58,7 +58,7 @@ the app's loading state.
 
 #### Using the service
 
-The `loading` service exposes the following properties, which you can use to 
+The `loading` service exposes the following properties, which you can use to
 render your loading indicator in any way:
 
 | Property               | Description                                                           |
@@ -69,7 +69,7 @@ render your loading indicator in any way:
 #### Using `while-loading`
 
 Rather than explicitly injecting the `loading` service and using an `{{#if}}`
-block in your template, you can more conveniently use the `while-loading` 
+block in your template, you can more conveniently use the `while-loading`
 component to wrap any content that should be shown only while loading:
 
 ```hbs
@@ -83,13 +83,13 @@ component to wrap any content that should be shown only while loading:
 #### Route transitions
 
 The service will automatically recognize route transitions (i.e. async model
-hooks) and set the service's loading state accordingly. 
+hooks) and set the service's loading state accordingly.
 
 #### Custom actions
 
 Whenever you kick off async processes that you want to show to the user, and
 which are not part of any of a route's model hooks, you can use the service's
-`run()` function, which will call your own async function, and set the 
+`run()` function, which will call your own async function, and set the
 services's loading properties accordingly.
 
 ```js
@@ -98,7 +98,7 @@ import { inject as service } from '@ember/service';
 
 export default Controller.extend({
   loading: service(),
-  
+
   actions: {
     save(model) {
       return this.loading.run(() => model.save());
@@ -107,7 +107,7 @@ export default Controller.extend({
 })
 ```
 
-The `run()` method has the following signature, similar to many of Ember's 
+The `run()` method has the following signature, similar to many of Ember's
 [runloop](https://emberjs.com/api/ember/release/modules/@ember%2Frunloop) functions:
 
 | Arguments / Return value   | Description                                                          |
@@ -129,7 +129,7 @@ import { action } from '@ember-decorators/object';
 import loading from 'ember-loading/decorator';
 
 export default class Foo extends Controller {
-  
+
   @action
   @loading
   save(model) {
@@ -139,17 +139,18 @@ export default class Foo extends Controller {
 ```
 
 > Note: As the TC39 decorator proposal is still in stage 2 and subject to change, the decorator support
-> is considered experimental and breaking changes are very likely! You have been warned. 
+> is considered experimental and breaking changes are very likely! You have been warned.
 
 ### Configuration
 
-The addon supports the following configuration options in your `config/environment.js`, under the 
+The addon supports the following configuration options in your `config/environment.js`, under the
 `ember-loading` key:
 
-| option               | Default | Description                                                |
-|----------------------|---------|------------------------------------------------------------|
-| `preDelay: number`   | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from false to true. This allows you to suppress the loading indicator appearing for very short loading times. |
-| `postDelay: number`  | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from true to false. This can help you with aggregating multiple async processes happening in succession, to prevent flickering of the loading indicator. |
+| option                        | Default | Description                                                |
+|-------------------------------|---------|------------------------------------------------------------|
+| `preDelay: number`            | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from false to true. This allows you to suppress the loading indicator appearing for very short loading times. |
+| `postDelay: number`           | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from true to false. This can help you with aggregating multiple async processes happening in succession, to prevent flickering of the loading indicator. |
+| `watchTransitions: Boolean`   | `true`  | If `false`, async transitions do not affect the `isLoading` property. |
 
 License
 ------------------------------------------------------------------------------
