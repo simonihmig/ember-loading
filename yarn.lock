@@ -5408,14 +5408,10 @@ ember-resolver@^7.0.0:
     ember-cli-version-checker "^3.1.3"
     resolve "^1.14.0"
 
-ember-rfc176-data@^0.3.12:
+ember-rfc176-data@^0.3.12, ember-rfc176-data@^0.3.6:
   version "0.3.12"
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.12.tgz#90d82878e69e2ac9a5438e8ce14d12c6031c5bd2"
   integrity sha512-g9HeZj/gU5bfIIrGXkP7MhS2b3Vu5DfNUrYr14hy99TgIvtZETO+96QF4WOEUXGjIJdfTRjerVnQlqngPQSv1g==
-
-ember-rfc176-data@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.6.tgz#7138db8dfccec39c9a832adfbd4c49d670028907"
 
 ember-router-generator@^1.2.3:
   version "1.2.3"
@@ -5727,10 +5723,10 @@ escodegen@^1.11.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-plugin-ember@^7.10.1:
-  version "7.13.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-7.13.0.tgz#a1df7794f06cdc6e1b8acfe6c59db5cf861f53dc"
-  integrity sha512-qIbw4uP0qUJoiWF4+7MTJWqwEN86RGmBNId0cwSoHoVNWtcw50R1ajYgxM1Q5FVUdoisVeSl9lKVRh5zkDFl+g==
+eslint-plugin-ember@^8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-ember/-/eslint-plugin-ember-8.4.0.tgz#bf66c1abf76b1039c8c253bf755b06382dd5c2b9"
+  integrity sha512-jzSpyA3+aQrEHydo3Tz8cNAbgmtYVlp0eSe8X52OsHYLdVc7i4vzMwA+ptfO06dzpLQNHWW5ziprB5hoAEt95A==
   dependencies:
     "@ember-data/rfc395-data" "^0.0.4"
     ember-rfc176-data "^0.3.12"
@@ -8046,12 +8042,7 @@ lodash.defaults@~2.3.0:
     lodash._objecttypes "~2.3.0"
     lodash.keys "~2.3.0"
 
-lodash.defaultsdeep@^4.6.0:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
-  integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
-
-lodash.defaultsdeep@^4.6.1:
+lodash.defaultsdeep@^4.6.0, lodash.defaultsdeep@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
   integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
