@@ -36,8 +36,9 @@ the existing [loading indicator addons](https://emberobserver.com/categories/loa
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.6 or above
+* Ember.js v3.12 or above
 * Ember CLI v2.13 or above
+* Node.js v10 or above
 
 
 Installation
@@ -151,6 +152,12 @@ The addon supports the following configuration options in your `config/environme
 | `preDelay: number`            | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from false to true. This allows you to suppress the loading indicator appearing for very short loading times. |
 | `postDelay: number`           | `0`     | Amount of milliseconds to delay the `showLoading` property (see [above](#using-the-service)) going from true to false. This can help you with aggregating multiple async processes happening in succession, to prevent flickering of the loading indicator. |
 | `watchTransitions: Boolean`   | `true`  | If `false`, async transitions do not affect the `isLoading` property. |
+
+Contributing
+------------------------------------------------------------------------------
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
 
 License
 ------------------------------------------------------------------------------
