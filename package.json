@@ -30,7 +30,7 @@
     "ember-cli-htmlbars": "^4.2.3",
     "ember-cli-typescript": "^2.0.0-rc.2",
     "ember-concurrency": "^0.10.0",
-    "ember-decorators-polyfill": "^1.0.4"
+    "ember-decorators-polyfill": "^1.1.5"
   },
   "devDependencies": {
     "@ember/optional-features": "^1.3.0",
