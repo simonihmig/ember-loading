@@ -1,6 +1,7 @@
 ember-loading
 ==============================================================================
-[![Build Status](https://travis-ci.com/kaliber5/ember-loading.svg?branch=master)](https://travis-ci.com/kaliber5/ember-loading)
+
+![CI](https://github.com/kaliber5/ember-loading/workflows/CI/badge.svg)
 [![Ember Observer Score](https://emberobserver.com/badges/ember-loading.svg)](https://emberobserver.com/addons/ember-loading)
 [![npm version](https://badge.fury.io/js/ember-loading.svg)](https://badge.fury.io/js/ember-loading)
 
