@@ -148,18 +148,18 @@ export default class LoadingService extends Service {
     return result;
   }
 
-  @task(function*() {
+  @task(function*(): Generator<unknown> {
     let [target, method, args] = parseArgs(...arguments);
     return yield method.apply(target, args);
   })
   _runJob!: Task<any>;
 
-  @(task(function*(delay: number) {
+  @(task(function*(delay: number): Generator<unknown> {
     yield timeout(delay);
   }).restartable())
   preDelayTask!: Task<void>;
 
-  @(task(function*(delay: number) {
+  @(task(function*(delay: number): Generator<unknown> {
     yield timeout(delay);
   }).restartable())
   postDelayTask!: Task<void>;
