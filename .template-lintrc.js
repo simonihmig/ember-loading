@@ -3,6 +3,6 @@
 module.exports = {
   extends: 'octane',
   rules: {
-    'no-curly-component-invocation': { allow: ['while-loading'] }
-  }
+    'no-curly-component-invocation': { allow: ['while-loading'] },
+  },
 };
