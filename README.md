@@ -128,7 +128,7 @@ If you use native classes and decorators, you can use the supplied `@loading` de
 ```js
 import Controller from '@ember/controller';
 import { action } from '@ember-decorators/object';
-import loading from 'ember-loading/decorator';
+import { loading } from 'ember-loading';
 
 export default class Foo extends Controller {
 
@@ -139,9 +139,6 @@ export default class Foo extends Controller {
   }
 }
 ```
-
-> Note: As the TC39 decorator proposal is still in stage 2 and subject to change, the decorator support
-> is considered experimental and breaking changes are very likely! You have been warned.
 
 ### Configuration
 
