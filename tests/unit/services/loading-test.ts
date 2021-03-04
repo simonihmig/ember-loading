@@ -20,18 +20,18 @@ module('Unit | Service | loading', function(hooks) {
       };
 
       let service: LoadingService = this.owner.lookup('service:loading');
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       let promise = service.run(job);
       assert.equal(called, 1, 'job has been called');
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       deferred.resolve();
       await promise;
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('waits for all async jobs', async function(assert) {
@@ -39,26 +39,26 @@ module('Unit | Service | loading', function(hooks) {
       let deferred2 = defer();
 
       let service: LoadingService = this.owner.lookup('service:loading');
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       let promise1 = service.run(() => deferred1.promise);
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       let promise2 = service.run(() => deferred2.promise);
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       deferred1.resolve();
       await promise1;
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       deferred2.resolve();
       await promise2;
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('passes args', async function(assert) {
@@ -112,7 +112,7 @@ module('Unit | Service | loading', function(hooks) {
 
       let service: LoadingService = this.owner.lookup('service:loading');
       let promise = service.run(job);
-      let result: string = await promise;
+      let result = await promise;
       assert.equal(result, 'foo');
     });
 
@@ -144,25 +144,25 @@ module('Unit | Service | loading', function(hooks) {
       let service: LoadingService = Service.create({
         postDelay: 10
       });
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       let promise = service.run(job);
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       deferred.resolve();
       await promise;
-      assert.notOk(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.ok(service.showLoading);
 
       await timeout(6);
-      assert.notOk(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.ok(service.showLoading);
 
       await timeout(5);
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('supports preDelay', async function(assert) {
@@ -172,21 +172,21 @@ module('Unit | Service | loading', function(hooks) {
       let service: LoadingService = Service.create({
         preDelay: 10
       });
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       let promise = service.run(job);
-      assert.ok(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.notOk(service.showLoading);
 
       await timeout(11);
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       deferred.resolve();
       await promise;
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('reads config', async function(assert) {
@@ -220,41 +220,41 @@ module('Unit | Service | loading', function(hooks) {
       let service: LoadingService = this.owner.lookup('service:loading');
       let router = this.owner.lookup('service:router');
 
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       router.trigger('routeWillChange');
       await settled();
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       router.trigger('routeDidChange');
       await settled();
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('multiple route transition events are handled correctly', async function(assert) {
       let service: LoadingService = this.owner.lookup('service:loading');
       let router = this.owner.lookup('service:router');
 
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       router.trigger('routeWillChange');
       await settled();
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       router.trigger('routeWillChange');
       await settled();
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       router.trigger('routeDidChange');
       await settled();
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('supports postDelay', async function(assert) {
@@ -264,26 +264,26 @@ module('Unit | Service | loading', function(hooks) {
       });
       let router = this.owner.lookup('service:router');
 
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       router.trigger('routeWillChange');
       await timeout(0);
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       router.trigger('routeDidChange');
       await timeout(0);
-      assert.notOk(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.ok(service.showLoading);
 
       await timeout(10);
-      assert.notOk(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.ok(service.showLoading);
 
       await timeout(15);
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
 
     test('supports preDelay', async function(assert) {
@@ -293,22 +293,22 @@ module('Unit | Service | loading', function(hooks) {
       });
       let router = this.owner.lookup('service:router');
 
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
 
       router.trigger('routeWillChange');
       await timeout(0);
-      assert.ok(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.notOk(service.showLoading);
 
       await timeout(10);
-      assert.ok(service.get('isLoading'));
-      assert.ok(service.get('showLoading'));
+      assert.ok(service.isLoading);
+      assert.ok(service.showLoading);
 
       router.trigger('routeDidChange');
       await timeout(0);
-      assert.notOk(service.get('isLoading'));
-      assert.notOk(service.get('showLoading'));
+      assert.notOk(service.isLoading);
+      assert.notOk(service.showLoading);
     });
   });
 });

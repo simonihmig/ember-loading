@@ -1,11 +1,10 @@
-import Service from '@ember/service';
-import { computed, action } from '@ember/object';
-import { readOnly } from '@ember/object/computed';
-import { Task, task, timeout } from 'ember-concurrency';
-import { inject as service } from '@ember/service';
+import Service, { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+import { restartableTask, task, timeout } from 'ember-concurrency';
 import RouterService from '@ember/routing/router-service';
 import { getOwner } from '@ember/application';
 import RSVP, { defer } from 'rsvp';
+import { taskFor } from 'ember-concurrency-ts';
 
 type ParseArgsValue = [any, Function, any[] | undefined];
 
@@ -58,16 +57,15 @@ export default class LoadingService extends Service {
   preDelay = 0;
   watchTransitions = true;
 
-  @readOnly('_runJob.isRunning')
-  isLoading!: boolean;
+  get isLoading(): boolean {
+    return taskFor(this._runJob).isRunning;
+  }
 
-  @computed('isLoading', 'preDelayTask.isRunning', 'postDelayTask.isRunning')
   get showLoading(): boolean {
-    // @ts-ignore
-    return !this.preDelayTask.isRunning && (this.isLoading || this.postDelayTask.isRunning);
-  };
+    return !taskFor(this.preDelayTask).isRunning && (this.isLoading || taskFor(this.postDelayTask).isRunning);
+  }
 
-  _routerTransitionDeferred?: RSVP.Deferred<void>;
+  _routerTransitionDeferred?: RSVP.Deferred<unknown>;
 
   @action
   _routeWillChange() {
@@ -75,7 +73,7 @@ export default class LoadingService extends Service {
     if (this._routerTransitionDeferred) {
       this._routerTransitionDeferred.resolve();
     }
-    this.set('_routerTransitionDeferred', deferred);
+    this._routerTransitionDeferred = deferred;
     this.run(() => deferred.promise);
   }
 
@@ -83,7 +81,7 @@ export default class LoadingService extends Service {
   _routeDidChange() {
     if (this._routerTransitionDeferred) {
       this._routerTransitionDeferred.resolve();
-      this.set('_routerTransitionDeferred', undefined);
+      this._routerTransitionDeferred = undefined;
     }
   }
 
@@ -94,7 +92,7 @@ export default class LoadingService extends Service {
     if (config) {
       this.preDelay = config.preDelay || 0;
       this.postDelay = config.postDelay || 0;
-      this.watchTransitions = config.watchTransitions === false ? false : true;
+      this.watchTransitions = config.watchTransitions !== false;
     }
 
     if(this.watchTransitions) {
@@ -134,35 +132,33 @@ export default class LoadingService extends Service {
   // run<R>(fn: () => R): Promise<R>;
   async run(...args: any[]) {
     if (this.preDelay > 0) {
-      // @ts-ignore
-      this.preDelayTask.perform(this.preDelay);
+      taskFor(this.preDelayTask).perform(this.preDelay);
     }
 
-    let result = await this._runJob.perform(...args);
+    let result = await taskFor(this._runJob).perform(...args);
 
     if (this.postDelay > 0) {
-      // @ts-ignore
-      this.postDelayTask.perform(this.postDelay);
+      taskFor(this.postDelayTask).perform(this.postDelay);
     }
 
     return result;
   }
 
-  @task(function*(): Generator<unknown> {
-    let [target, method, args] = parseArgs(...arguments);
-    return yield method.apply(target, args);
-  })
-  _runJob!: Task<any>;
+  @task
+  async _runJob(...args: unknown[]): Promise<unknown> {
+    let [target, method, realArgs] = parseArgs(...args);
+    return await method.apply(target, realArgs);
+  }
 
-  @(task(function*(delay: number): Generator<unknown> {
-    yield timeout(delay);
-  }).restartable())
-  preDelayTask!: Task<void>;
+  @restartableTask
+  async preDelayTask(delay: number): Promise<void> {
+    await timeout(delay);
+  }
 
-  @(task(function*(delay: number): Generator<unknown> {
-    yield timeout(delay);
-  }).restartable())
-  postDelayTask!: Task<void>;
+  @restartableTask
+  async postDelayTask(delay: number): Promise<void> {
+    await timeout(delay);
+  }
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your services.
