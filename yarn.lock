@@ -1926,10 +1926,10 @@
   resolved "https://registry.yarnpkg.com/@types/ember__template/-/ember__template-3.0.1.tgz#70332b2091cebdf1f0a7d1e81e97d80c8526f123"
   integrity sha512-6hYGNLvYhwv+XvRFXeObMu8Fr2h3tslb+YQNE2UKU81ul8AJZ+utZuGpEVZ221sa49HWm220yNVuOFeQcC4PhA==
 
-"@types/ember__test-helpers@1.7.5":
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-1.7.5.tgz#6a9f5e517869fa396dc037f729f1b56a00bf5d92"
-  integrity sha512-Hs3/9DTwJp8QPr2Jt8ZOuoxogSFH4Agi++mszutzd8GLk9Skeo1nN5IJY5FjaS8j6eDAYaPv71sRvuRa+CNA7A==
+"@types/ember__test-helpers@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-2.0.1.tgz#6ef0ebd2443cdf432bc03991d8d7fb3492c772a8"
+  integrity sha512-eAya0Nx/9k4WCqH9GSAQuK95PM+N0AuwEgfWotGCAoyaDhbW1wN3uQOc2wrPFwk2CZAWlqpndrvzkpIYfFrsXQ==
   dependencies:
     "@types/ember" "*"
     "@types/ember__application" "*"
