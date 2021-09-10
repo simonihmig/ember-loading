@@ -5,10 +5,10 @@ import hbs from 'htmlbars-inline-precompile';
 import LoadingService from '../../../addon/services/loading';
 import { defer } from 'rsvp';
 
-module('Integration | Component | while-loading', function(hooks) {
+module('Integration | Component | while-loading', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders while loading', async function(assert) {
+  test('it renders while loading', async function (assert) {
     let service: LoadingService = this.owner.lookup('service:loading');
     let deferred = defer();
 
