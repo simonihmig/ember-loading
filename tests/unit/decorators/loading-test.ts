@@ -4,11 +4,10 @@ import EmberObject from '@ember/object';
 import RSVP, { defer } from 'rsvp';
 import { loading } from 'ember-loading';
 
-module('Unit | Decorator | loading', function(hooks) {
+module('Unit | Decorator | loading', function (hooks) {
   setupTest(hooks);
 
-  test('it sets loading state', async function(assert) {
-
+  test('it sets loading state', async function (assert) {
     class Test extends EmberObject {
       defer?: RSVP.Deferred<void>;
 
@@ -32,7 +31,7 @@ module('Unit | Decorator | loading', function(hooks) {
     assert.notOk(service.get('isLoading'));
   });
 
-  test('it passes args and return value', async function(assert) {
+  test('it passes args and return value', async function (assert) {
     assert.expect(2);
 
     class Test extends EmberObject {
@@ -55,4 +54,3 @@ module('Unit | Decorator | loading', function(hooks) {
     assert.equal(result, 1);
   });
 });
-
