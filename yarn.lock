@@ -1593,12 +1593,12 @@
     "@types/ember-test-helpers" "*"
     "@types/qunit" "*"
 
-"@types/ember-test-helpers@*", "@types/ember-test-helpers@1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@types/ember-test-helpers/-/ember-test-helpers-1.0.10.tgz#cbd7f7e73a05f1c08075b99d4906cd5d92f443f0"
-  integrity sha512-sa0bIRIFPJanqA+6gzjLPUtBifJmVh7PKWwR1C0tmt+R2/CKSFMxn1j38nafNDNKS1so2KVCU/WmHvQ/WlF+gA==
+"@types/ember-test-helpers@*", "@types/ember-test-helpers@1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@types/ember-test-helpers/-/ember-test-helpers-1.0.11.tgz#ac2be70cbc91d7ff88566a15f43865f4a81cdde3"
+  integrity sha512-OYddjJqgDhUBc8BWKpMy/afwtUsk63iZey/iAV4RwZtvSVtMStjTZUCYiQpIjQSpgNF3JNRteVqbtmFnQO66hw==
   dependencies:
-    "@types/ember" "*"
+    "@types/ember" "^3"
     "@types/htmlbars-inline-precompile" "*"
     "@types/jquery" "*"
     "@types/rsvp" "*"
@@ -1611,7 +1611,7 @@
     "@types/jquery" "*"
     "@types/rsvp" "*"
 
-"@types/ember@*", "@types/ember@3.16.6":
+"@types/ember@*", "@types/ember@3.16.6", "@types/ember@^3":
   version "3.16.6"
   resolved "https://registry.yarnpkg.com/@types/ember/-/ember-3.16.6.tgz#167a1e1641d6d24603e1511aec935359acae3402"
   integrity sha512-S8sw98UUK/sqZS73+D5ESuqV4h6AxSy7Ffe6WFH0Np31BQrMflJv+52Wfj43SS0AfQW4DUuhMaMz6F12ge6VBA==
