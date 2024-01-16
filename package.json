@@ -48,7 +48,7 @@
     "@types/ember-testing-helpers": "0.0.4",
     "@types/ember__test-helpers": "2.8.0",
     "@types/qunit": "2.19.2",
-    "@types/rsvp": "4.0.4",
+    "@types/rsvp": "4.0.9",
     "@typescript-eslint/parser": "5.33.1",
     "babel-eslint": "10.1.0",
     "broccoli-asset-rev": "3.0.0",
