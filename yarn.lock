@@ -1597,10 +1597,10 @@
   dependencies:
     "@types/ember__object" "*"
 
-"@types/ember-test-helpers@1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@types/ember-test-helpers/-/ember-test-helpers-1.0.11.tgz#ac2be70cbc91d7ff88566a15f43865f4a81cdde3"
-  integrity sha512-OYddjJqgDhUBc8BWKpMy/afwtUsk63iZey/iAV4RwZtvSVtMStjTZUCYiQpIjQSpgNF3JNRteVqbtmFnQO66hw==
+"@types/ember-test-helpers@1.0.16":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@types/ember-test-helpers/-/ember-test-helpers-1.0.16.tgz#0f960b315762572822310dc076e7e70d6fe63a00"
+  integrity sha512-pReuReD86A/PA+6wnJn3+a80Y4DsnRnXPudGxjHXGuJo4qNlhZp1c9/wwD/m7lj/+0ge8RIvHbZxDuVwcc3hLg==
   dependencies:
     "@types/ember" "^3"
     "@types/htmlbars-inline-precompile" "*"
